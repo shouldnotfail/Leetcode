@@ -100,3 +100,57 @@ public:
 
 };
 ```
+
+
+86.merge
+
+最本能的想法是从头排序，为了方式数据丢失重新创建了一个数组
+如果从后面开始好像不用创建数组
+
+```c++
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i = 0, j = 0;
+        vector<int> ans;
+        if( nums1.size()<nums2.size()) 
+        {
+            swap(n,m);
+            swap(nums1,nums2);
+        }
+        if (m*n==0)
+        {   
+            if (m>n);
+
+            else
+                nums1=nums2;
+
+        }
+        else {
+        while(j+i<nums1.size())
+        {
+            if(nums1[i]>=nums2[j])
+            {
+                ans.emplace_back(nums2[j]);
+                j++;
+                if(j>=n)
+                {
+                    for(i;i<m;i++)
+                    ans.emplace_back(nums1[i]);
+                }
+            }
+            else{
+                ans.emplace_back(nums1[i]);
+                i++;
+                if(i>=m)
+                {
+                    for(j;j<n;j++)
+                    ans.emplace_back(nums2[j]);
+                }
+                }
+        }
+        nums1=ans;
+        }
+    }
+};
+```
