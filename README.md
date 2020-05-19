@@ -153,4 +153,60 @@ public:
         }
     }
 };
+
+
+524. findlongestword
+
+这题看了答案写，想用双指针，或许这里不是单纯的双指针了，是两个双指针，导致情况复杂了一点，需要考虑。不过逻辑就是要么查询单词先查询完毕，要么，被查询单词先查询完毕，特殊情况就是指针相等时候，需要继续查询该指针，因为不能确定是否查询完毕，如果是之前的双指针，因为不会涉及重复？无此情况
+
+另外注意逻辑的实现，先实现什么，先break什么，这里先查询字典是否查询完毕，在后来的逻辑中会用到，所以要清楚顺序。
+```
+```c++
+class Solution {
+public:
+    string findLongestWord(string s, vector<string>& d) {
+        int i,j;
+        string The_Whole=s;
+        string zichuan;
+        string better,best="";
+
+        for(i=0;i<d.size();i++){   
+            zichuan=d[i];
+            int m=0;
+            int m_ = zichuan.size()-1;
+            int j_ = The_Whole.size()-1;
+
+            for(j=0;j<s.size();){//遍历给定字符串
+                if(The_Whole[j]==zichuan[m])
+                    m++;
+                if(The_Whole[j_]==zichuan[m_])
+                    m_--;j++;j_--;
+                if(m>=m_){
+                if(m==m_){
+                    while(j<=j_)
+                    {
+                        if(The_Whole[j++]==zichuan[m]){
+                        better=zichuan;
+                        if(better.size()>best.size()||(better.size()==best.size()&&better.compare(best)<0))
+                        {best=better;break;}
+                    }}}
+                else if(m>m_){
+                    better=zichuan;
+                    if(better.size()>best.size()||(better.size()==best.size()&&better.compare(best)<0))
+                        {best=better;break;}
+                }break;}
+                else if(j>=j_){
+                if(j==j_&&m==m_&&The_Whole[j]==zichuan[m])                {
+                    better=zichuan;
+                    if(better.size()>best.size()||(better.size()==best.size()&&better.compare(best)<0))
+                        best=better;
+                }else if(j>j_)
+                    break;}
+            }
+
+        }
+        return best;
+    }
+
+};
 ```
