@@ -210,3 +210,35 @@ public:
 
 };
 ```
+树的深搜
+迭代过程中，只有最后一次执行函数的返回值是所求，其余的可以return空
+注意现场的恢复，如果写成如下形式，那么在判断的到达终点的时候要单独恢复现场。
+
+```c++
+class Solution {
+    vector<vector<int>> ans;
+    vector<int> path;
+    int path_sum=0;
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        if (!root) return {};
+        if (root->left==NULL && root->right==NULL && path_sum+root->val==sum) 
+        {
+            path.push_back(root->val);
+            ans.push_back(path);
+            path.pop_back();
+            return ans;
+        }
+
+        path.push_back(root->val);
+        // if (root->left==NULL && root->right==NULL && path_sum+root->val==sum)
+        //     ans.push_back(path); 
+        path_sum += root->val;
+        pathSum(root->left,sum);
+        pathSum(root->right,sum);
+        path_sum -= root->val;
+        path.pop_back();
+        return ans;
+    }
+};
+```
